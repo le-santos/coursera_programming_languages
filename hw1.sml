@@ -2,14 +2,13 @@
 
 fun is_older (date1: int*int*int, date2: int*int*int) =
   let
-    fun is_minor (a: int, b: int) = a < b
     fun year (date: (int*int*int)) = #1 date
     fun month (date: (int*int*int)) = #2 date
     fun day (date: (int*int*int)) = #3 date
   in
-    is_minor (year(date1), year(date2)) orelse
-    is_minor (month(date1), month(date2)) orelse
-    is_minor (day(date1), day(date2))
+    year(date1) < year(date2) orelse
+    month(date1) < month(date2) orelse
+    day(date1) < day(date2)
   end
 
 (* ====================== *)
