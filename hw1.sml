@@ -31,3 +31,14 @@ fun number_in_month (dates: (int*int*int) list, month: int) =
   in
     check_dates (dates)
   end
+
+(* ====================== *)
+(* Check how many dates are in any of the given months *)
+fun number_in_months (dates: (int*int*int) list, months: int list) =
+  let
+    val initial_count = number_in_month (dates, hd months)
+  in
+    if null (tl months)
+    then initial_count
+    else initial_count + number_in_months (dates, tl months)
+  end
