@@ -73,3 +73,14 @@ fun dates_in_months (dates: (int*int*int) list, months: int list) =
     then base_list
     else base_list @ dates_in_months (dates, tl months)
   end
+
+(* ====================== *)
+(* Return the nth element of a list *)
+
+fun get_nth (words: string list, position: int) =
+  let
+    val counter = position - 1
+  in
+    if counter = 0 then (hd words)
+    else get_nth (tl words, counter)
+  end
