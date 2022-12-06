@@ -99,8 +99,10 @@ fun date_to_string (year: int, month: int, day: int) =
                        "June", "July", "August", "September", "October",
                        "November", "December" ]
     val month_name = get_nth (month_list, month)
+    val day_string = Int.toString(day)
+    val year_string = Int.toString(year)
   in
-    month_name ^ " " ^ Int.toString(day) ^ ", " ^ Int.toString(year)
+    month_name ^ " " ^ day_string ^ ", " ^ year_string
   end
 
 (* ====================== *)
