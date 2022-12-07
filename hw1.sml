@@ -32,19 +32,21 @@ fun number_in_month (dates: (int*int*int) list, month: int) =
         else first_result + check_dates(tl dates)
       end
   in
-    check_dates (dates)
+    if null dates then 0 else check_dates (dates)
   end
 
 (* ====================== *)
 (* Check how many dates are in any of the given months *)
 
 fun number_in_months (dates: (int*int*int) list, months: int list) =
-  let
-    val base_count = number_in_month (dates, hd months)
-  in
-    if null (tl months) then base_count
-    else base_count + number_in_months (dates, tl months)
-  end
+  if null months then 0
+  else
+    let
+      val base_count = number_in_month (dates, hd months)
+    in
+      if null (tl months) then base_count
+      else base_count + number_in_months (dates, tl months)
+    end
 
 (* ====================== *)
 (* Return the dates that are in the given month *)
@@ -64,20 +66,21 @@ fun dates_in_month (dates: (int*int*int) list, month: int) =
           else (hd base_list)::check_dates(tl dates)
       end
   in
-    check_dates (dates)
+    if null dates then [] else check_dates (dates)
   end
 
 (* ====================== *)
 (* Return dates that are in any of the given months *)
 
 fun dates_in_months (dates: (int*int*int) list, months: int list) =
-  let
-    val base_list = dates_in_month (dates, hd months)
-  in
-    if null (tl months)
-    then base_list
-    else base_list @ dates_in_months (dates, tl months)
-  end
+  if null months then []
+  else
+    let
+      val base_list = dates_in_month (dates, hd months)
+    in
+      if null (tl months) then base_list
+      else base_list @ dates_in_months (dates, tl months)
+    end
 
 (* ====================== *)
 (* Return the nth element of a list *)
