@@ -8,12 +8,10 @@ fun is_older (date1: int*int*int, date2: int*int*int) =
   in
     if  year(date1) < year(date2) then true
     else if year(date1) > year(date2) then false
-    else
-      if month(date1) < month(date2) then true
-      else if month(date1) > month(date2) then false
-      else
-        if day(date1) < day(date1) then true
-        else false
+    else if month(date1) < month(date2) then true
+    else if month(date1) > month(date2) then false
+    else if day(date1) < day(date1) then true
+    else false
   end
 
 (* ====================== *)
