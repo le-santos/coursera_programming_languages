@@ -1,5 +1,10 @@
 NUM ?= 1
 
+sml:
+# Description: run sml REPL with rlwrap
+# make sml
+	rlwrap sml
+
 week:
 # Description: load homework NUM=n in a sml REPL (default NUM=1)
 # ex: make week NUM=1

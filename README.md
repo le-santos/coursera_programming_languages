@@ -5,3 +5,8 @@
 This repo includes exercises from the University of Washington **Programming Languages** courses. The first part A uses Standard ML language to explain some basic conceps of programming languages.
 
 Link to course: [Programming Languages - Part A](https://www.coursera.org/learn/programming-languages)
+
+### Requirements
+
+- Standard ML
+- rlwrap (to access history of entries in sml repl)
