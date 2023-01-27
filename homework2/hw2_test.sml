@@ -6,8 +6,13 @@
 use "./homework2/hw2.sml";
 
 val test1 = all_except_option ("string", ["string"]) = SOME []
+val test1_a = all_except_option ("string", ["baa", "foo"]) = NONE
+val test1_b = all_except_option ("string", ["string", "test"]) = SOME ["test"]
+val test1_c = all_except_option ("string", ["test", "string"]) = SOME ["test"]
 
 val test2 = get_substitutions1 ([["foo"],["there"]], "foo") = []
+val test2_a = get_substitutions1 ([["foo", "baa"],["there"]], "foo") = ["baa"]
+val test2_b = get_substitutions1 ([["foo", "baa"],["boo"],["foo", "lee"]], "foo") = ["baa", "lee"]
 
 val test3 = get_substitutions2 ([["foo"],["there"]], "foo") = []
 
