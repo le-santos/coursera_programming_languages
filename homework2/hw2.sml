@@ -70,3 +70,15 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* Problem 2 *)
+
+fun card_color (card) =
+   case card of
+      (Clubs,rank)  => Black
+    | (Spades,rank) => Black
+    | (others,rank) => Red
+
+fun card_value (card) =
+   case card of
+      (suit, Num x) => x
+    | (suit, Ace) => 11
+    | (suit, others) => 10
