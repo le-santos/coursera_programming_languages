@@ -82,3 +82,55 @@ fun card_value (card) =
       (suit, Num x) => x
     | (suit, Ace) => 11
     | (suit, others) => 10
+
+fun remove_card (card_list, card, ex) =
+   case card_list of
+      []    => raise ex
+      | x::xs => if x = card then xs else x::remove_card(xs, card, ex)
+
+fun all_same_color (card_list) =
+   case card_list of
+      [] => true
+      | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(rest)
+
+fun sum_cards (card_list) =
+   let fun add_values(cards, acc) =
+            case cards of
+                [] => acc
+              | first::rest => add_values(rest, acc + card_value(first))
+   in
+     add_values(card_list, 0)
+   end
+
+fun score (held_cards, goal) =
+   let fun pre_score (cards, goal) = 
+      let val sum = sum_cards(cards)
+      in
+         if sum > goal then 3 * (sum - goal)
+         else (goal - sum)
+      end
+   in
+     if all_same_color(held_cards) then pre_score(held_cards, goal) div 2
+     else pre_score(held_cards, goal)
+   end
+
+fun officiate (card_list, move_list, goal) =
+   let
+      fun draw_card (game_cards, held_cards) =
+         case game_cards of
+            [] => held_cards
+          | x::xs => x::held_cards
+
+      fun make_a_move (game_cards, held_cards, move) =
+         case move of
+            Discard card => remove_card(held_cards, card, IllegalMove)
+          | Draw => draw_card(game_cards, held_cards)
+
+      fun process_game (game_cards, held_cards, moves) =
+         case moves of
+            [] => held_cards
+          | first_move::rest => make_a_move (game_cards, held_cards, first_move)
+
+   in
+     score(process_game(card_list, [], move_list), goal)
+   end
