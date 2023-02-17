@@ -90,7 +90,8 @@ fun remove_card (card_list, card, ex) =
 
 fun all_same_color (card_list) =
    case card_list of
-      [] => true
+        [] => true
+      | [x] => true
       | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(rest)
 
 fun sum_cards (card_list) =
@@ -116,21 +117,30 @@ fun score (held_cards, goal) =
 
 fun officiate (card_list, move_list, goal) =
    let
-      fun draw_card (game_cards, held_cards) =
+      fun draw_cards (game_cards, held_cards) =
          case game_cards of
             [] => held_cards
           | x::xs => x::held_cards
 
-      fun make_a_move (game_cards, held_cards, move) =
+      fun change_held_cards (game_cards, held_cards, move) =
          case move of
-            Discard card => remove_card(held_cards, card, IllegalMove)
-          | Draw => draw_card(game_cards, held_cards)
+            Discard card => remove_card (held_cards, card, IllegalMove) (* remove specific card from held_cards *)
+          | Draw => draw_cards (game_cards, held_cards) (* remove 1st from game_cards and add to held cards *)
+      
+      fun change_game_cards (cards) =
+         case cards of
+            [] => []
+          | x::xs => xs
 
-      fun process_game (game_cards, held_cards, moves) =
+      fun process_moves (game_cards, held_cards, moves) =
          case moves of
             [] => held_cards
-          | first_move::rest => make_a_move (game_cards, held_cards, first_move)
-
+          | first_move::next_moves => case first_move of
+                                         Discard card => process_moves(game_cards, change_held_cards(game_cards, held_cards, first_move), next_moves)
+                                       | Draw => process_moves(change_game_cards(game_cards), change_held_cards(game_cards, held_cards, first_move), next_moves)
    in
-     score(process_game(card_list, [], move_list), goal)
+     score(process_moves(card_list, [], move_list), goal)
    end
+
+          (* se for Discard => process_moves com game_cards + held_cards atualizado
+          se for Draw => process_moves com game_cards atualizado + held_cards atualizado *)
