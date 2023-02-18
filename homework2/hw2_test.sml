@@ -9,6 +9,7 @@ val test1 = all_except_option ("string", ["string"]) = SOME []
 val test1_a = all_except_option ("string", ["baa", "foo"]) = NONE
 val test1_b = all_except_option ("string", ["string", "test"]) = SOME ["test"]
 val test1_c = all_except_option ("string", ["test", "string"]) = SOME ["test"]
+val test1_d = all_except_option ("string", []) = NONE
 
 val test2 = get_substitutions1 ([["foo"],["there"]], "foo") = []
 val test2_a = get_substitutions1 ([["foo", "baa"],["there"]], "foo") = ["baa"]
@@ -25,6 +26,7 @@ val test5 = card_color (Clubs, Num 2) = Black
 val test6 = card_value (Clubs, Num 2) = 2
 
 val test7 = remove_card ([(Hearts, Ace)], (Hearts, Ace), IllegalMove) = []
+val test7b = (remove_card ([], (Hearts, Ace), IllegalMove); false) handle IllegalMove => true
 
 val test8 = all_same_color [(Hearts, Ace), (Hearts, Ace)] = true
 

@@ -10,12 +10,12 @@ fun all_except_option (item, list) =
    let fun check_item (item, list) =
          case list of
               [] => []
-            | x::xs => if same_string(item, x) then xs
-                       else x::check_item(item, xs)
+            | x::xs => if same_string(item, x) then xs else x::check_item(item, xs)
    in
-      case check_item(item, list) of
-           [] => SOME []
-         | x::xs => if (x::xs) = list then NONE else SOME (x::xs)
+      if [item] = list then SOME []
+      else case check_item(item, list) of
+            [] => NONE
+            | x::xs => if (x::xs) = list then NONE else SOME (x::xs)
    end
 
 (* Test 2 *)
@@ -92,7 +92,7 @@ fun all_same_color (card_list) =
    case card_list of
         [] => true
       | [x] => true
-      | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(rest)
+      | head::(neck::rest) => card_color(head) = card_color(neck) andalso all_same_color(neck::rest)
 
 fun sum_cards (card_list) =
    let fun add_values(cards, acc) =
@@ -132,15 +132,15 @@ fun officiate (card_list, move_list, goal) =
             [] => []
           | x::xs => xs
 
-      fun process_moves (game_cards, held_cards, moves) =
-         case moves of
-            [] => held_cards
-          | first_move::next_moves => case first_move of
-                                         Discard card => process_moves(game_cards, change_held_cards(game_cards, held_cards, first_move), next_moves)
-                                       | Draw => process_moves(change_game_cards(game_cards), change_held_cards(game_cards, held_cards, first_move), next_moves)
+      fun process_moves (game_cards, held_cards, moves, goal) =
+         if sum_cards (held_cards) > goal then held_cards
+         else case moves of
+                  [] => held_cards
+                | first_move::next_moves => 
+                        case first_move of
+                           Discard card => process_moves(game_cards, change_held_cards(game_cards, held_cards, first_move), next_moves, goal)
+                         | Draw => process_moves(change_game_cards(game_cards), change_held_cards(game_cards, held_cards, first_move), next_moves, goal)
    in
-     score(process_moves(card_list, [], move_list), goal)
+     score(process_moves(card_list, [], move_list, goal), goal)
    end
 
-          (* se for Discard => process_moves com game_cards + held_cards atualizado
-          se for Draw => process_moves com game_cards atualizado + held_cards atualizado *)
