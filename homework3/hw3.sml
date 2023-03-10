@@ -41,7 +41,14 @@ fun only_capitals (strings) =
 
 fun longest_string1 (strings) =
   let
-    fun compare (a,b) = if String.size(a) > String.size(b) then a else b   
+    fun compare (a,b) = if String.size(a) > String.size(b) then a else b
+  in
+    List.foldl(compare) "" strings
+  end
+
+fun longest_string2 (strings) =
+  let
+    fun compare (a,b) = if String.size(a) >= String.size(b) then a else b
   in
     List.foldl(compare) "" strings
   end
