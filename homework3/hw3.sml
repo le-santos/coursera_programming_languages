@@ -52,3 +52,15 @@ fun longest_string2 (strings) =
   in
     List.foldl(compare) "" strings
   end
+
+fun longest_string_helper(compare_fn) = fn strings => List.foldl(compare_fn) "" strings
+
+val longest_string3 =
+  longest_string_helper(fn (a,b) => if String.size(a) > String.size(b) then a else b)
+
+val longest_string4 =
+  longest_string_helper(fn (a,b) => if String.size(a) >= String.size(b) then a else b)
+
+
+(* returns the longest string in the list that begins with
+an uppercase letter, or "" if there are no such strings. *)
