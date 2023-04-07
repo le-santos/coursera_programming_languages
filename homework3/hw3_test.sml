@@ -32,7 +32,8 @@ val test9b = count_wild_and_variable_lengths (Variable("a")) = 1
 
 val test9c = count_some_var ("x", Variable("x")) = 1
 
-val test10 = check_pat (Variable("x")) = true
+val test10a = check_pat (Variable("x")) = true
+val test10b = check_pat (ConstructorP ("egg", ConstructorP ("egg", ConstP 4))) = false
 
 val test11 = match (Const(1), UnitP) = NONE
 

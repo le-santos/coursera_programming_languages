@@ -118,7 +118,7 @@ fun check_pat(pattern) =
       case pat of
           Variable x        => [x]
         | TupleP ps         => List.foldl (fn (v,vs) => vs @ extract_variables(v)) [] ps
-        | ConstructorP(_,p) => extract_variables(p)
+        | ConstructorP (str,p2) => str::extract_variables(p2)
         | _                 => []
 
     fun has_duplication(list) =
@@ -130,3 +130,23 @@ fun check_pat(pattern) =
   in
     has_duplication(extract_variables(pattern))
   end
+
+fun match value_pattern =
+  case value_pattern of
+      (_, Wildcard) => SOME []
+     | (v, Variable s) => SOME [(s, v)]
+     | (Unit, UnitP) => SOME []
+     | (Const v, ConstP v') => if v = v' then SOME [] else NONE
+     | (Tuple vs, TupleP ps) =>
+         if length(vs) = length(ps)
+         then all_answers match (ListPair.zip(vs, ps))
+         else NONE
+     | (Constructor(s2, v), ConstructorP(s1, p)) => 
+         if s1 = s2
+         then match(v, p)
+         else NONE
+     | _ => NONE
+
+fun first_match value patterns =
+  SOME(first_answer (fn p => match(value, p)) patterns)
+  handle NoAnswer => NONE
