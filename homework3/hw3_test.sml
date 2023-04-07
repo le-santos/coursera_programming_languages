@@ -22,6 +22,9 @@ val test6 = rev_string "abc" = "cba"
 val test7 = first_answer (fn x => if x > 3 then SOME x else NONE) [1,2,3,4,5] = 4
 
 val test8 = all_answers (fn x => if x = 1 then SOME [x] else NONE) [2,3,4,5,6,7] = NONE
+val test8b = all_answers (
+  fn x => if Char.isLower(String.sub(x, 0)) then SOME [x] else NONE) ["this","list","has","no","capital","letters"] =
+    SOME ["letters","capital","no","has","list","this"]
 
 val test9a = count_wildcards Wildcard = 1
 

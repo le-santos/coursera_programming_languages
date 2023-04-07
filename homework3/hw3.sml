@@ -93,7 +93,7 @@ fun all_answers f items =
   let
     fun helper (function, list, acc) = 
       case list of
-          []    => SOME []
+          []    => SOME acc
         | x::xs => case f(x) of
                         NONE   => NONE
                       | SOME y => helper((function, xs, y @ acc))
