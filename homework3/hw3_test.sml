@@ -33,7 +33,23 @@ val test9b = count_wild_and_variable_lengths (Variable("a")) = 1
 val test9c = count_some_var ("x", Variable("x")) = 1
 
 val test10a = check_pat (Variable("x")) = true
-val test10b = check_pat (ConstructorP ("egg", ConstructorP ("egg", ConstP 4))) = false
+val test10b = check_pat (ConstructorP ("egg", ConstructorP ("egg", ConstP 4))) = true
+val test10c = check_pat (TupleP[ConstP 17,Wildcard,ConstP 4,ConstructorP ("egg",ConstP 4),ConstructorP ("egg",ConstructorP ("egg",ConstP 4))])
+
+val test1004 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", Wildcard]))) = true
+val test1005 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", ConstructorP("y", Variable "y")]))) = true
+val test1007 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", ConstructorP("y", TupleP [Variable "y"])]))) = true
+val test1008 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", ConstructorP("y", TupleP [Variable "z"])]))) = true
+val test1010 = check_pat (ConstructorP("x", (ConstructorP("y", TupleP [Variable "x", Variable "y"])))) = true
+
+val test1001 = check_pat (TupleP [Wildcard, Variable "x", Wildcard]) = true
+val test1002 = check_pat (TupleP [Wildcard, Variable "x", Variable "y"]) = true
+val test1003 = check_pat (TupleP [Wildcard, Variable "x", Variable "x"]) = false
+val test1006 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", ConstructorP("y", Variable "x")]))) = false
+val test1009 = check_pat (ConstructorP("x", (TupleP [Wildcard, Variable "x", ConstructorP("y", TupleP [Variable "x"])]))) = false
+val test1011 = check_pat (ConstructorP("x", (ConstructorP("y", TupleP [Variable "x", Variable "x"])))) = false
+val test1012 = check_pat (TupleP [Wildcard, Variable "x", TupleP [Variable "y"]]) = true
+
 
 val test11 = match (Const(1), UnitP) = NONE
 

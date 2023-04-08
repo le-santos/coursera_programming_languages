@@ -118,12 +118,13 @@ fun check_pat(pattern) =
       case pat of
           Variable x        => [x]
         | TupleP ps         => List.foldl (fn (v,vs) => vs @ extract_variables(v)) [] ps
-        | ConstructorP (str,p2) => str::extract_variables(p2)
+        | ConstructorP (_,p2) => extract_variables(p2)
         | _                 => []
 
     fun has_duplication(list) =
       case list of
          [x] => true
+       | [ ] => true
        | x::xs => if List.exists(fn f => f = x) xs
                   then false
                   else has_duplication(xs)
