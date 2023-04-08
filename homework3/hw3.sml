@@ -53,26 +53,16 @@ fun longest_string2 (strings) =
     List.foldl(compare) "" strings
   end
 
-fun longest_string_helper(compare_fn, list) =
-  List.foldl(fn (s, acc) => if compare_fn(String.size(s), String.size(acc)) then s else acc) "" list
+fun longest_string_helper(compare_fn) =
+  List.foldl(fn (s, acc) => if compare_fn(String.size(s), String.size(acc)) then s else acc) ""
 
-fun longest_string3(strings) =
-  let
-    val comparison = fn (a,b) => a > b
-  in
-    longest_string_helper(comparison,strings)
-  end
-
-fun longest_string4(strings) =
-  let
-    val comparison = fn (a,b) => a >= b
-  in
-    longest_string_helper(comparison,strings)
-  end
+(* Using val bindind instead of fun bindings *)
+(* This is a partial apllication of helper fun above*)
+val longest_string3 = longest_string_helper (fn (a,b) => a > b)
+val longest_string4 = longest_string_helper (fn (a,b) => a >= b)
 
 (* returns the longest string in the list that begins with
 an uppercase letter, or "" if there are no such strings. *)
-
 fun longest_capitalized(strings) =
   let
     val helper = longest_string1 o only_capitals
