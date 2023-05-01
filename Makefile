@@ -19,3 +19,8 @@ run:
 # Description: execute sml REPL using a given file
 # ex: make run file=filename.sml
 	rlwrap sml $(file)
+
+ruby-game:
+# Description: execute ruby tetris game
+# ex: make ruby-game
+	ruby ./homework6/hw6runner.rb

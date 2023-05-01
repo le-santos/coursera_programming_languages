@@ -8,5 +8,10 @@ Link to course: [Programming Languages - Part A](https://www.coursera.org/learn/
 
 ### Requirements
 
+For the part A
 - Standard ML
 - rlwrap (to access history of entries in sml repl)
+
+For the part C
+- Ruby
+- gem tk
