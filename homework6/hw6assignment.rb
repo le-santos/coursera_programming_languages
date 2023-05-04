@@ -8,8 +8,8 @@ class MyPiece < Piece
   ALL_MY_PIECES = [
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [3, 0]], # extra long (only needs two)
      [[0, 0], [0, -1], [0, 1], [0, 2], [0, 3]]],
-     rotations([[0, 0], [0, 0], [0, 1], [1, 1]]), # short L
-     rotations([[0, -1], [0, 0], [0, 1], [1, 0], [1, -1]]) # new block
+     rotations([[0, 0], [0, 1], [1, 1],  [0, 0]]), # short L
+     rotations([[0, -1], [0, 0], [1, 0], [0, 1], [1, 1]]) # new block
   ]
 
   # class method to choose the next piece
