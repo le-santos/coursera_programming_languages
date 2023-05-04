@@ -5,7 +5,7 @@
 
 class MyPiece < Piece
   # The constant All_My_Pieces should be declared here
-  ALL_MY_PIECES = [
+  All_My_Pieces = [
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [3, 0]], # extra long (only needs two)
      [[0, 0], [0, -1], [0, 1], [0, 2], [0, 3]]],
      rotations([[0, 0], [0, 1], [1, 1],  [0, 0]]), # short L
@@ -14,7 +14,7 @@ class MyPiece < Piece
 
   # class method to choose the next piece
   def self.next_piece(board)
-    new((ALL_MY_PIECES + All_Pieces).sample, board)
+    new((All_My_Pieces + All_Pieces).sample, board)
   end
 
   def self.cheat_next_piece(board)
