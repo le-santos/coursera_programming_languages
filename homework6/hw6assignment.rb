@@ -8,21 +8,26 @@ class MyPiece < Piece
   ALL_MY_PIECES = [
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [3, 0]], # extra long (only needs two)
      [[0, 0], [0, -1], [0, 1], [0, 2], [0, 3]]],
-     rotations([[0, 0], [0, 0], [0, 1], [1, 1]]), # L
+     rotations([[0, 0], [0, 0], [0, 1], [1, 1]]), # short L
      rotations([[0, -1], [0, 0], [0, 1], [1, 0], [1, -1]]) # new block
   ]
 
   # class method to choose the next piece
-  def self.next_piece (board)
-    new(ALL_MY_PIECES.sample, board)
+  def self.next_piece(board)
+    new((ALL_MY_PIECES + All_Pieces).sample, board)
+  end
+
+  def self.cheat_next_piece(board)
+    single_block = [[[0, 0], [0, 0], [0, 0], [0, 0]]]
+    new(single_block, board)
   end
 end
 
 class MyBoard < Board
-
   def initialize(game)
     super
     @current_block = MyPiece.next_piece(self)
+    @cheat_status = false
   end
 
   # rotates the current piece 180 degrees
@@ -30,13 +35,23 @@ class MyBoard < Board
     if !game_over? and @game.is_running?
       @current_block.move(0, 0, -2)
     end
+
     draw
   end
 
-  # gets the next piece
+  def drop_cheat_piece
+    return if score < 100
+    
+    @score -= 100
+    @cheat_status = true
+  end
+
+  # gets the next piece. If cheat_status is enabled, returns custom piece
+  # and reset the cheat status
   def next_piece
-    @current_block = MyPiece.next_piece(self)
+    @current_block =  @cheat_status ? MyPiece.cheat_next_piece(self) : MyPiece.next_piece(self)
     @current_pos = nil
+    @cheat_status = false
   end
 end
 
@@ -52,7 +67,8 @@ class MyTetris < Tetris
 
   def key_bindings  
     super
-    @root.bind('u' , proc {@board.rotate_180_degrees}) 
+    @root.bind('u' , proc {@board.rotate_180_degrees})
+    @root.bind('c' , proc {@board.drop_cheat_piece})
   end
 end
 

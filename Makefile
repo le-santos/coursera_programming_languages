@@ -20,7 +20,12 @@ run:
 # ex: make run file=filename.sml
 	rlwrap sml $(file)
 
-ruby-game:
+ruby-game-original:
 # Description: execute ruby tetris game
-# ex: make ruby-game
-	ruby ./homework6/hw6runner.rb
+# ex: make ruby-game-original
+	ruby ./homework6/hw6runner.rb original
+
+ruby-game-enhanced:
+# Description: execute ruby tetris game with enhancements
+# ex: make ruby-game-enhanced
+	ruby ./homework6/hw6runner.rb enhanced
