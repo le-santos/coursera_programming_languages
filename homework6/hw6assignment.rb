@@ -8,8 +8,8 @@ class MyPiece < Piece
   All_My_Pieces = [
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [3, 0]], # extra long (only needs two)
      [[0, 0], [0, -1], [0, 1], [0, 2], [0, 3]]],
-     rotations([[0, 0], [0, 1], [1, 1],  [0, 0]]), # short L
-     rotations([[0, -1], [0, 0], [1, 0], [0, 1], [1, 1]]) # new block
+     rotations([[0, 0], [0, 1], [1, 0]]), # short L
+     rotations([[1, -1], [1, 0], [0, -1], [0, 0], [0, 1]]) # new block
   ]
 
   # class method to choose the next piece
@@ -18,7 +18,7 @@ class MyPiece < Piece
   end
 
   def self.cheat_next_piece(board)
-    single_block = [[[0, 0], [0, 0], [0, 0], [0, 0]]]
+    single_block = [[[0, 0]]]
     new(single_block, board)
   end
 end
@@ -40,7 +40,7 @@ class MyBoard < Board
   end
 
   def drop_cheat_piece
-    return if score < 100
+    return if score < 100 || @cheat_status
     
     @score -= 100
     @cheat_status = true
@@ -52,6 +52,21 @@ class MyBoard < Board
     @current_block =  @cheat_status ? MyPiece.cheat_next_piece(self) : MyPiece.next_piece(self)
     @current_pos = nil
     @cheat_status = false
+  end
+
+  # custom method that considers block sizes with less than 4 items (cheat_piece and short L)
+  def store_current
+    locations = @current_block.current_rotation
+    block_size = locations.size
+    displacement = @current_block.position
+
+    (0..(block_size - 1)).each do |index| 
+      current = locations[index];
+      @grid[current[1] + displacement[1]][current[0] + displacement[0]] = @current_pos[index]
+    end
+
+    remove_filled
+    @delay = [@delay - 2, 80].max
   end
 end
 
